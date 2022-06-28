@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@testing-library/react'
+import {fireEvent, render} from '@testing-library/react'
 import CityList from './CityList';
 import "@testing-library/jest-dom/";
 
@@ -19,3 +19,18 @@ test('should first', async () => {
 
     expect(cityListComponent).toHaveLength(4)
  })
+
+ test('CityList click On Item', async () => { 
+    
+    const fnClickOnItem = jest.fn()
+
+    const {findAllByRole} = render(<CityList cities={cities} onClickCity={fnClickOnItem} />)
+
+    // eslint-disable-next-line testing-library/prefer-screen-queries
+    const cityListComponent = await findAllByRole("listitem")
+
+    fireEvent.click(cityListComponent[0])
+
+
+    expect(fnClickOnItem).toHaveBeenCalledTimes(1)
+  })
