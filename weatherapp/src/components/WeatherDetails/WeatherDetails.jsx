@@ -6,8 +6,8 @@ import { Typography } from '@mui/material'
 const WeatherDetails = ({humidity, wind}) => {
   return (
     <div>
-        <Typography variant='h4'>Humedad: {humidity}%</Typography>
-        <Typography variant='h4'>Viento: {wind}km2</Typography>
+        <Typography variant='h6' display={'inline'}>Humedad: {humidity}%</Typography>
+        <Typography variant='h6' display={'inline'}>Viento: {wind}km2</Typography>
     </div>
   )
 }

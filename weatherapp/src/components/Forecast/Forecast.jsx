@@ -17,7 +17,7 @@ const renderForecastItem = (forecast, index) => {
 
 const Forecast = ({forecastItemList}) => {  
   return (
-    <Grid container justifyContent={'center'} alignContent={'center'}>
+    <Grid container justifyContent={'space-around'} alignContent={'center'}>
         {
             forecastItemList.map((forecast,index) => renderForecastItem(forecast, index))
         }

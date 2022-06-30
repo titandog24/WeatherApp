@@ -4,33 +4,32 @@ import CityPage from './pages/CityPage';
 import MainPage from './pages/MainPage';
 import NotFoundPage from './pages/NotFoundPage';
 import WelcomePage from './pages/WelcomePage';
+import Grid from '@mui/material/Grid'
 
 const App = () => {
   return (
-    <div>
-      <h1>Hola mundo</h1>
+    <Grid container
+      justifyContent={'center'}
+      direction={'row'}
+    >
       <Router>
         <Switch>
-
           <Route path={"/main"}>
-           <MainPage />
+            <MainPage />
           </Route>
-
           <Route path={"/city"}>
             <CityPage />
           </Route>
-
           <Route exact path={"/"}>
             <WelcomePage />
           </Route>
-
           <Route>
-           <NotFoundPage />
+            <NotFoundPage />
           </Route>
-
         </Switch>
       </Router>
-    </div>
+
+    </Grid>
   );
 }
 

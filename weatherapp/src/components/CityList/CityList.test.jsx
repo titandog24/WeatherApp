@@ -15,7 +15,7 @@ test('should first', async () => {
     const {findAllByRole} = render(<CityList cities={cities} />)
 
     // eslint-disable-next-line testing-library/prefer-screen-queries
-    const cityListComponent = await findAllByRole("listitem")
+    const cityListComponent = await findAllByRole("button")
 
     expect(cityListComponent).toHaveLength(4)
  })
