@@ -5,7 +5,7 @@ import Weather from './Weather'
 
 test('Weather Render', async () => { 
     
-const {findByRole} = render(<Weather temperature={10} state={'sunny'}></Weather>)
+const {findByRole} = render(<Weather temperature={10} state={'Clear'}></Weather>)
 
 // eslint-disable-next-line testing-library/prefer-screen-queries
 const WeatherComponent = await findByRole("heading")

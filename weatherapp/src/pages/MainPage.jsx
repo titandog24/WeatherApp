@@ -9,8 +9,8 @@ const MainPage = () => {
     const history = useHistory()
 
     const cities = [
-        {city:"Liberia", country:"Costa Rica"},
-        {city:"Bogotá", country:"Colombia"},
+        {city:"London", country:"England"},
+        {city:"Bogota", country:"Colombia"},
         {city:"Caracas", country:"Venezuela"},
         {city:"Managua", country:"Nicaragua"},
     
