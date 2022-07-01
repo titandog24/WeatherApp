@@ -33,7 +33,7 @@ const CityList = ({ cities, onClickCity }) => {
     useEffect(()=>{
         const setWeather = (city, country) => {
             
-            const appid = '247e7ac5306952cc726724703dea302c'
+            const appid = ''
              axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}`)
                         .then(response => {
                             const {data} = response
