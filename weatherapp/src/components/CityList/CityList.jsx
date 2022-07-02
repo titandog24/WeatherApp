@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import CityInfo from '../CityInfo'
@@ -6,6 +6,7 @@ import Weather from '../Weather'
 import Grid from '@mui/material/Grid'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
+import convertUnits from 'convert-units'
 
 const renderCityAndCountry = eventOnClickCity => (cityAndCountry, allWeather) => {
     const { city, country } = cityAndCountry
@@ -16,11 +17,9 @@ const renderCityAndCountry = eventOnClickCity => (cityAndCountry, allWeather) =>
                     <CityInfo city={city} country={country} />
                 </Grid>
                 <Grid item xs={12} md={3}>
-                    {
-                        allWeather === undefined
-                        ? "No hay datos"
-                        : <Weather temperature={allWeather.temperature} state={allWeather.state} />
-                    }
+                    <Weather
+                        temperature={allWeather && allWeather.temperature}
+                        state={allWeather && allWeather.state} />
                 </Grid>
             </Grid>
         </ListItem>
@@ -30,36 +29,36 @@ const renderCityAndCountry = eventOnClickCity => (cityAndCountry, allWeather) =>
 const CityList = ({ cities, onClickCity }) => {
     const [allWeather, setAllWeather] = useState({})
 
-    useEffect(()=>{
+    useEffect(() => {
         const setWeather = (city, country) => {
-            
+
             const appid = '247e7ac5306952cc726724703dea302c'
-             axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}`)
-                        .then(response => {
-                            const {data} = response
-                            const temperature = data.main.temp
-                            const state = data.weather[0].main
-                            const propName = `${city}-${country}`
-                            const propValue = {temperature, state}
-                            setAllWeather((allWeather) => {
-                                const result = { ...allWeather, [propName]:propValue}
-                                return result
-                            })
-                    }).catch(error => {
-                        console.log(error);
+            axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}`)
+                .then(response => {
+                    const { data } = response
+                    const temperature = Number(convertUnits(data.main.temp).from('K').to('C').toFixed(0))
+                    const state = data.weather[0].main
+                    const propName = `${city}-${country}`
+                    const propValue = { temperature, state }
+                    setAllWeather((allWeather) => {
+                        const result = { ...allWeather, [propName]: propValue }
+                        return result
                     })
+                }).catch(error => {
+                    console.log(error);
+                })
         }
 
-        cities.forEach(({city, country}) => {
+        cities.forEach(({ city, country }) => {
             setWeather(city, country)
         })
-        
-    },[cities])
+
+    }, [cities])
 
     return (
         <List>
             {
-                cities.map(cityAndCountry => renderCityAndCountry(onClickCity)(cityAndCountry,allWeather[`${cityAndCountry.city}-${cityAndCountry.country}`]))
+                cities.map(cityAndCountry => renderCityAndCountry(onClickCity)(cityAndCountry, allWeather[`${cityAndCountry.city}-${cityAndCountry.country}`]))
             }
         </List>
     )
