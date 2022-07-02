@@ -31,6 +31,7 @@ const CityList = ({ cities, onClickCity }) => {
 
     useEffect(() => {
         const setWeather = (city, country) => {
+<<<<<<< HEAD
 
             const appid = '247e7ac5306952cc726724703dea302c'
             axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}`)
@@ -43,6 +44,23 @@ const CityList = ({ cities, onClickCity }) => {
                     setAllWeather((allWeather) => {
                         const result = { ...allWeather, [propName]: propValue }
                         return result
+=======
+            
+            const appid = ''
+             axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}`)
+                        .then(response => {
+                            const {data} = response
+                            const temperature = data.main.temp
+                            const state = data.weather[0].main
+                            const propName = `${city}-${country}`
+                            const propValue = {temperature, state}
+                            setAllWeather((allWeather) => {
+                                const result = { ...allWeather, [propName]:propValue}
+                                return result
+                            })
+                    }).catch(error => {
+                        console.log(error);
+>>>>>>> e465ba0ca314bffceb3b116d2894c0b4a965e9b5
                     })
                 }).catch(error => {
                     console.log(error);
