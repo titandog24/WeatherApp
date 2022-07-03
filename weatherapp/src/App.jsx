@@ -17,7 +17,7 @@ const App = () => {
           <Route path={"/main"}>
             <MainPage />
           </Route>
-          <Route path={"/city"}>
+          <Route path={"/city/:country/:city"}>
             <CityPage />
           </Route>
           <Route exact path={"/"}>

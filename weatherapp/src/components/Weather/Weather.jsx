@@ -6,7 +6,6 @@ import Skeleton from '@mui/material/Skeleton'
 
 
 const Weather = ({ temperature, state }) => {
-
     return (
         <div>
             {

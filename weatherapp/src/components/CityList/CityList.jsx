@@ -7,20 +7,23 @@ import Grid from '@mui/material/Grid'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import convertUnits from 'convert-units'
-import token from './token'
+import token from '../token'
+import Alert from '@mui/material/Alert'
+
+const getcityAndCountry = (city, country) => `${city}-${country}`
 
 const renderCityAndCountry = eventOnClickCity => (cityAndCountry, allWeather) => {
     const { city, country } = cityAndCountry
     return (
-        <ListItem button key={city} onClick={eventOnClickCity}>
+        <ListItem button key={city} onClick={() =>eventOnClickCity(city, country)}>
             <Grid container justifyContent={'center'} alignContent={'center'}>
                 <Grid item xs={12} md={9}>
                     <CityInfo city={city} country={country} />
                 </Grid>
                 <Grid item xs={12} md={3}>
-                    <Weather 
-                    temperature={allWeather && allWeather.temperature} 
-                    state={allWeather && allWeather.state} />
+                    <Weather
+                        temperature={allWeather && allWeather.temperature}
+                        state={allWeather && allWeather.state} />
                 </Grid>
             </Grid>
         </ListItem>
@@ -29,26 +32,33 @@ const renderCityAndCountry = eventOnClickCity => (cityAndCountry, allWeather) =>
 
 const CityList = ({ cities, onClickCity }) => {
     const [allWeather, setAllWeather] = useState({})
+    const [errores, setError] = useState('')
 
     useEffect(() => {
-        const setWeather = (city, country) => {
+        const setWeather = async (city, country) => {
 
             const appid = token()
-            debugger
-            axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}`)
-                .then(response => {
-                    const { data } = response
-                    const temperature = Number(convertUnits(data.main.temp).from('K').to('C').toFixed(0))
-                    const state = data.weather[0].main
-                    const propName = `${city}-${country}`
-                    const propValue = { temperature, state }
-                    setAllWeather((allWeather) => {
-                        const result = { ...allWeather, [propName]: propValue }
-                        return result
-                    })
-                }).catch(error => {
-                    console.log(error);
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}`
+
+            try {
+                const response = await axios.get(url)
+                const { data } = response
+
+                const temperature = Number(convertUnits(data.main.temp).from('K').to('C').toFixed(0))
+                const state = data.weather[0].main
+
+                const propName = getcityAndCountry(city, country)
+                const propValue = { temperature, state }
+
+                setAllWeather((allWeather) => {
+                    const result = { ...allWeather, [propName]: propValue }
+                    return result
                 })
+
+            } catch (error) {
+                console.log(error);
+                setError('Ha ocurrido un error')
+            }
         }
 
         cities.forEach(({ city, country }) => {
@@ -58,11 +68,19 @@ const CityList = ({ cities, onClickCity }) => {
     }, [cities])
 
     return (
-        <List>
+        <>
             {
-                cities.map(cityAndCountry => renderCityAndCountry(onClickCity)(cityAndCountry, allWeather[`${cityAndCountry.city}-${cityAndCountry.country}`]))
+                errores !== ''
+                    ? <Alert severity="error" onClose={() => setError('')}>{errores}</Alert>
+                    : ""
             }
-        </List>
+            <List>
+                {
+                    cities.map(cityAndCountry => renderCityAndCountry(onClickCity)(cityAndCountry, allWeather[getcityAndCountry(cityAndCountry.city, cityAndCountry.country)]))
+                }
+            </List>
+        </>
+
     )
 }
 
