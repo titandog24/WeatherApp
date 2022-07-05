@@ -5,9 +5,8 @@ import AppFrame from '../components/AppFrame'
 import { Paper } from '@mui/material'
 
 
-const MainPage = () => {
+const MainPage = ({allWeather, onSetAllWeather}) => {
     const history = useHistory()
-
     const cities = [
         { city: "London", country: "England" },
         { city: "Bogota", country: "Colombia" },
@@ -24,7 +23,11 @@ const MainPage = () => {
         <AppFrame>
             <Paper elevation={3}>
                 <h1>Lista de Ciudades</h1>
-                <CityList cities={cities} onClickCity={onClickHandler} />
+                <CityList
+                    allWeather={allWeather}
+                    cities={cities}
+                    onClickCity={onClickHandler}
+                    onSetAllWeather={onSetAllWeather} />
             </Paper>
         </AppFrame>
     )

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Typography } from '@mui/material';
-import Icons from '../Icons';
+import Icons from '../../utilsComponent/Icons';
 import Skeleton from '@mui/material/Skeleton'
 
 

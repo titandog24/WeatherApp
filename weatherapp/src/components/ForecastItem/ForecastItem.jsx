@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Typography } from '@mui/material' 
-import Icons from '../Icons'
+import Icons from '../../utilsComponent/Icons'
 
 
 const ForecastItem = ({weekDay, hour, state, temperature}) => {

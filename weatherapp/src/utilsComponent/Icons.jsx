@@ -3,10 +3,6 @@ import { WiDayCloudy, WiSnow, WiRaindrop, WiThunderstorm, WiDaySunny, WiRain } f
 import { IconContext } from 'react-icons'
 import PropTypes from 'prop-types'
 
-const validState = [
-    'Clear','Clouds','Rain','Snow','Drizzle','Thunderstorm'
-]
-
 const stateByName = {
     drizzle: WiRaindrop,
     clouds: WiDayCloudy,
@@ -32,7 +28,7 @@ const Icons = state => {
 }
 
 Icons.propTypes = {
-    state: PropTypes.oneOf(validState).isRequired
+    state: PropTypes.string.isRequired
 }
 
 export default Icons;
