@@ -15,21 +15,21 @@ import { getCityAndCountry } from '../utilsComponent/Utils'
 
 
 
-const CityPage = ({onSetAllWeather, allWeather}) => {
+const CityPage = ({actions, datos}) => {
     const params = useParams();
     const { city, country } = params
+    const {allWeather, charData, forecastList} = datos
 
     const cities = useMemo(() =>([{city, country}]), [city, country])
     
-    const {data, forecastList} = useCityPage(city)
-
-    useCityList(cities,allWeather, onSetAllWeather)
+    useCityPage(city, actions, charData, forecastList)
+    useCityList(cities, allWeather, actions)
 
     const weather = allWeather[getCityAndCountry(city, country)]
-
+    const allCharData = charData && charData[city]
+    const allForecastList =forecastList && forecastList[city]
     const humidity = weather && weather.humidity
     const wind = weather && weather.wind
-
 
     return (
         <AppFrame>
@@ -40,27 +40,27 @@ const CityPage = ({onSetAllWeather, allWeather}) => {
                 </Grid>
                 <Grid container item xs={12} justifyContent={'center'}>
                     <Grid container item xs={12} justifyContent={'center'}>
-                        <Weather
+                    { weather && <Weather
                             temperature={weather && weather.temperature}
-                            state={weather && weather.state} />
+                            state={weather && weather.state} />}
                     </Grid>
                     <Grid container item xs={12} justifyContent={'center'}>
-                       { weather && <WeatherDetails humidity={humidity} wind={wind} />}
+                       { humidity && wind && <WeatherDetails humidity={humidity} wind={wind} />}
                     </Grid>
                 </Grid>
                 <Grid container item xs={8} justifyContent={'center'}>
                    {
-                    !data && !forecastList && <LinearProgress color="secondary" />
+                    !allCharData && !allForecastList && <LinearProgress color="secondary" />
                    } 
                 </Grid>
                 <Grid container item xs={12} justifyContent={'center'}>
                     {
-                        data && <ForecastChart data={data} />
+                        allCharData && <ForecastChart data={allCharData} />
                     }
                 </Grid>
                 <Grid container item xs={12}>
                     {
-                        forecastList && <Forecast forecastItemList={forecastList} />
+                        allForecastList && <Forecast forecastItemList={allForecastList} />
                     }
                 </Grid>
             </Grid>
