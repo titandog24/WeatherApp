@@ -14,8 +14,8 @@ export const useCityPage = (city, actions, charData, forecastList) => {
                 
                 const{ dataAux, forecastItemListAux} = getAllForecast(await axios.get(URLForecast(city)))
 
-                actions.onSetCharData({[city]: dataAux})
-                actions.onSetForecastList({[city]: forecastItemListAux})
+                actions({type: 'SET_CHAR_DATA', payload: {[city]: dataAux}})
+                actions({type: 'SET_FORECAST_LIST_ITEM', payload: {[city]: forecastItemListAux}})
             } catch (error) {
                 console.log(error);
             }

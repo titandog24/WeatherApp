@@ -12,11 +12,9 @@ import { getCityAndCountry } from '../../utilsComponent/Utils'
 
 
 
-const renderCityAndCountry = eventOnClickCity => (cityAndCountry, allWeather) => {
-    const { city, country } = cityAndCountry
-
-    return (
-        <ListItem button key={city} onClick={() => eventOnClickCity(city, country)}>
+const RenderItemList = React.memo(({city, country, allWeather, eventOnClickCity}) => {
+    return(
+        <ListItem button onClick={() => eventOnClickCity(city, country)}>
             <Grid container justifyContent={'center'} alignContent={'center'}>
                 <Grid item xs={12} md={9}>
                     <CityInfo city={city} country={country} />
@@ -28,6 +26,17 @@ const renderCityAndCountry = eventOnClickCity => (cityAndCountry, allWeather) =>
                 </Grid>
             </Grid>
         </ListItem>
+    )
+})
+
+
+
+
+const renderCityAndCountry = eventOnClickCity => (cityAndCountry, allWeather) => {
+    const { city, country } = cityAndCountry
+
+    return (
+        <RenderItemList key={city} city={city} country={country} allWeather={allWeather} eventOnClickCity={eventOnClickCity} />
     )
 }
 

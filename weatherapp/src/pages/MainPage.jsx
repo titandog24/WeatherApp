@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import { useHistory } from 'react-router-dom'
 import CityList from '../components/CityList'
 import AppFrame from '../components/AppFrame'
@@ -15,9 +15,9 @@ const MainPage = ({data, actions}) => {
 
     ]
 
-    const onClickHandler = (city, country) => {
+    const onClickHandler = useCallback((city, country) => {
         history.push(`/city/${country}/${city}`)
-    }
+    }, [history])
 
     return (
         <AppFrame>

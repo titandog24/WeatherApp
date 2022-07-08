@@ -16,12 +16,12 @@ export const useCityList = (cities, allWeather, actions) => {
             try {
 
                 const propName = getCityAndCountry(city, country)
-                actions.onSetAllWeather({[propName]: {}})
+                actions({type: 'SET_ALL_WEATHER', payload: {[propName]: {}}})
 
                 const response = await axios.get(URLWeather(city))
                 const transformAllWeather = getAllWeather(response,getCityAndCountry(city, country))
 
-                actions.onSetAllWeather(transformAllWeather)
+                actions({type: 'SET_ALL_WEATHER', payload: transformAllWeather})
                 
             } catch (error) {
                 console.log(error);
